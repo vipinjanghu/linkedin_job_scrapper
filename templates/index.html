@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login</title>
+</head>
+<body>
+  <h1 style="text-align:center; font-weight:bold;">LinkedIn Login</h1>
+  <form action='/login' method='post'>
+    <label for='login_Id'>Username:</label>
+    <input type='text' id='login_Id' name='login_Id' required>
+    <br>
+    <label for='password'>Password:</label>
+    <input type='password' id='password' name='password' required>
+    <br>
+    <input type='submit' value='Submit'>
+  </form>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Flask==2.2.2
+requests==2.28.1
+urllib3
+Flask-Cors==3.0.10
+selenium==3.14.0
+pymongo==4.3.3

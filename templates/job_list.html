@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Job List</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Job List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Company Name</th>
+        <th>Company Profile</th>
+        <th>Job Profile</th>
+        <th>Job Link</th>
+          <th>Location</th>
+          <th>Time of Post</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for job in job_list %}
+      <tr>
+        <td>{{ job.Company_Name}}</td>
+        <td><a href="{{ job.Company_Profile}}">{{ job.Company_Profile}}</a></td>
+        <td>{{ job.Job_profile}}</td>
+        <td><a href="{{ job.Job_Link }}">{{ job.Job_Link }}</a></td>
+          <td>{{ job.Location}}</td>
+          <td>{{ job.Time_of_Post}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

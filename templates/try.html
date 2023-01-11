@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Review Page</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+      <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+  <div class="table-users">
+   <div class="header">Jobs</div>
+
+   <table cellspacing="0">
+      <tr>
+          <th>Company Name</th>
+        <th>Company Profile</th>
+        <th>Job Profile</th>
+        <th>Job Link</th>
+          <th>Location</th>
+          <th>Time of Post</th>
+
+      </tr>
+         {% for job in job_list %}
+      <tr>
+          <td>{{ job.Company_Name}}</td>
+        <td><a href="{{ job.Company_Profile}}">{{ job.Company_Profile}}</a></td>
+        <td>{{ job.Job_profile}}</td>
+        <td><a href="{{ job.Job_Link }}">{{ job.Job_Link }}</a></td>
+          <td>{{ job.Location}}</td>
+          <td>{{ job.Time_of_Post}}</td>
+       {% endfor %}
+   </table>
+</div>
+
+
+
+</body>
+
+</html>
