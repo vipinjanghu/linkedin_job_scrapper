@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Jobs</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <form action='/search_jobs' method='post'>
+    <h1 style="text-align:center; font-weight:bold;">Search Jobs</h1>
+    <div style="text-align: center;">
+        <label for='content'>Job:</label>
+        <input type='text' id='content' name='content' required>
+    </div>
+    <br>
+    <div style="text-align: center;">
+    <input type='submit' value='Submit'>
+    </div>
+  </form>
+</body>
+</html>

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Review Page</title>
+  <title>Scrapped Jobs</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
@@ -17,28 +17,39 @@
 <body>
 
   <div class="table-users">
-   <div class="header">Jobs</div>
+  <h1 style="text-align:center; font-weight:bold;">Scrapped Jobs</h1>
+      <br>
 
    <table cellspacing="0">
       <tr>
           <th>Company Name</th>
-          <th>Job Profile</th>
+        <th>Company Profile</th>
+        <th>Job Profile</th>
+        <th>Job Link</th>
           <th>Location</th>
           <th>Time of Post</th>
-          <th>No of applicants TN</th>
-          <th>Apply</th>
 
       </tr>
-         {% for i in job %}
+         {% for job in job_list %}
       <tr>
-          <td>{{i['Company_Name']}}</td>
-          <td>{{i['Job_profile']}}</td>
-          <td>{{i['Location']}}</td>
-          <td>{{i['Time_of_post']}}</td>
-          <td>{{i['No_of_applicant']}}</td>
-          <td>{{i['Apply']}}</td>
+          <td>{{ job.Company_Name}}</td>
+        <td><button onclick="window.open('{{ job.Company_Profile}}', '_blank')">Visit Profile</button></td>
+        <td>{{ job.Job_profile}}</td>
+        <td><button onclick="window.open('{{ job.Job_Link}}', '_blank')">Apply</button></td>
+          <td>{{ job.Location}}</td>
+          <td class="table-cell">{{ job.Time_of_Post}}</td>
        {% endfor %}
    </table>
+      <form action='/want_another_job' method='post'>
+    <div style="text-align: center;">
+        <label for='content'>Do yoo want to scrape another Job Y/n?:</label>
+        <input type='text' id='content' name='content' required>
+    </div>
+    <br>
+    <div style="text-align: center;">
+    <input type='submit' value='Submit'>
+    </div>
+  </form>
 </div>
 
 
