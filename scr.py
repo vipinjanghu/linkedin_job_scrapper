@@ -1,10 +1,12 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
-from selenium import webdriver
+from datetime import datetime
+
 
 
 class linkedin():
@@ -151,12 +153,14 @@ class linkedin():
             company_profile = "Not Defined"
         location = jo.find_element_by_xpath('.//div[1]/span[1]/span[2]').text
         time_post = jo.find_element_by_xpath('.//div[1]/span[2]/span').text
+        date_time = datetime.now()
         job_det = {"Company_Name": company_name,
                    "Company_Profile": company_profile,
                    "Job_profile": job_prof,
                    "Job_Link": link,
                    "Location": location,
-                   "Time_of_Post": time_post
+                   "Time_of_Post": time_post,
+                   "Time_of_scrap":date_time
                    }
         return job_det
 

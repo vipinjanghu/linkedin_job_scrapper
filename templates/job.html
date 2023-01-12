@@ -9,9 +9,11 @@
 
 <body>
   <form action='/search_jobs' method='post'>
-    <h1 style="text-align:center; font-weight:bold;">Search Jobs</h1>
+    <h1 style="text-align:center">Scrape jobs Directly from Linkedin</h1>
     <div style="text-align: center;">
-        <label for='content'>Job:</label>
+        <label for='content'>Do you Want to scrape from linkdin Y/N?:</label>
+        <input type='text' id='source' name='source' required>
+        <label for='content'>Job Name:</label>
         <input type='text' id='content' name='content' required>
     </div>
     <br>
@@ -19,5 +21,8 @@
     <input type='submit' value='Submit'>
     </div>
   </form>
+<br>
+<div><label >Note:Y means scrape live jobs from linkedin , N means it will show older scrapped jobs.</label></div>
+
 </body>
 </html>
