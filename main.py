@@ -1,7 +1,7 @@
 from constant import url
 from database import to_database, from_database
 from constant import client, db
-from scr import linkedin
+from scrapper import linkedin
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
 
