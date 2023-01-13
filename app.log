@@ -1,0 +1,37 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:4464
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 297-320-311
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:37:53] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:37:53] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:37:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+INFO:root:Login Successfully
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:38:19] "POST /login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:38:19] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+INFO:root:Scrapping from linkedin
+INFO:root:Successfully Sent the Job name to search bar.
+INFO:root:Successfully applied the filter
+INFO:root:Successfully scrolled the page
+INFO:root:Successfully scrolled the page
+INFO:root:Successfully find the 2nd page.
+INFO:root:Successfully scrape the jobs 
+INFO:root:Successfully scrolled the page
+INFO:root:Successfully scrolled the page
+INFO:root:Successfully scrape the jobs 
+INFO:root:Scrapped Successfully
+INFO:root:Sent successfully to database
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:38:47] "POST /search_jobs HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:38:47] "[33mGET /style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:38:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+INFO:root:Looking for another job
+INFO:root:Back on homepage for another job
+INFO:root:Back on Home page
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:39:23] "POST /want_another_job HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:39:23] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+INFO:root:Getting job from Database
+INFO:root:Successfully featched data from database
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:39:41] "POST /search_jobs HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:39:41] "[33mGET /style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Jan/2023 11:39:41] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -

@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 import logging
 
-logging.basicConfig(filename='app.log', level=logging.DEBUG)
+logging.basicConfig(filename='app.log', level=logging.INFO)
 
 
 
