@@ -6,6 +6,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
 from datetime import datetime
+import logging
+
+logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
 
 
@@ -48,10 +51,12 @@ class linkedin():
             WebDriverWait(self.driver, 30).until(
                 EC.element_to_be_clickable((By.CLASS_NAME, "sign-in-form__submit-button"))
             ).click()
+
         except TimeoutError as e:
-            print("Timeout Error: Failed to load page or find login elements")
+            logging.error("Timeout Error: Failed to load page or find login elements")
         except Exception as e:
-            print("An unexpected error occurred: ", e)
+            logging.error("An unexpected error occurred: ", e)
+
 
     def check_Credentials(self):
         ''' This function will return if we have wrong user_id or wrong password'''
@@ -59,12 +64,15 @@ class linkedin():
             if WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, "form__input--error"))).get_attribute(
                     "id") == "username":
+                logging.error("Wrong user id provided")
                 return str("Wrong User Id")
             elif WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, "form__input--error"))).get_attribute(
                     "id") == "password":
+                logging.error("Wrong password")
                 return str("Wrong Password")
         except:
+            logging.info("Login Successfully")
             return str("Login Successfully")
 
     def search_filter(self, job_name):
@@ -73,35 +81,42 @@ class linkedin():
             job_name:string of job which we want to scrape
         '''
         #Wait for the "search-global-typeahead__input" element to be clickable before interacting with it
-        search = WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.CLASS_NAME, "search-global-typeahead__input"))
-        )
+        try:
+            search = WebDriverWait(self.driver, 30).until(
+                EC.element_to_be_clickable((By.CLASS_NAME, "search-global-typeahead__input"))
+            )
 
-        search.send_keys(job_name)
-        search.send_keys(Keys.ENTER)
+            search.send_keys(job_name)
+            search.send_keys(Keys.ENTER)
+            logging.info("Successfully Sent the Job name to search bar.")
+        except Exception as e:
+            logging.exception("Not able to find the search bar.")
 
         # Wait for the "All filters" element to be clickable before interacting with it
-        all_filter = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//*[text()='All filters']"))
-        )
-        all_filter.click()
+        try:
+            all_filter = WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, "//*[text()='All filters']"))
+            )
+            all_filter.click()
 
-        # Wait for the "advanced-filter-sortBy-DD" element to be clickable before interacting with it
-        ab = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_all_elements_located((By.CLASS_NAME, "search-reusables__value-label"))
-        )
-        time.sleep(1)
-        for i in ab:
-            if i.get_attribute("for") == "advanced-filter-sortBy-DD":  # most recent filter
-                i.click()
-            if i.get_attribute("for") == "advanced-filter-timePostedRange-r86400":  # Past 24 hour filter
-                i.click()
+            # Wait for the "advanced-filter-sortBy-DD" element to be clickable before interacting with it
+            ab = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "search-reusables__value-label"))
+            )
+            time.sleep(1)
+            for i in ab:
+                if i.get_attribute("for") == "advanced-filter-sortBy-DD":  # most recent filter
+                    i.click()
+                if i.get_attribute("for") == "advanced-filter-timePostedRange-r86400":  # Past 24 hour filter
+                    i.click()
 
-        # Wait for the show result button to be clickable before interacting with it
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '/html/body/div[3]/div/div/div[3]/div/button[2]'))
-        ).click()
-
+            # Wait for the show result button to be clickable before interacting with it
+            WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, '/html/body/div[3]/div/div/div[3]/div/button[2]'))
+            ).click()
+            logging.info("Successfully applied the filter")
+        except Exception as e:
+            logging.debug("Not able to apply filter ")
         self.driver.maximize_window()
         time.sleep(1)
 
@@ -109,8 +124,12 @@ class linkedin():
         '''
              It will scroll our inner scrollbar attached with a scrable element
         '''
-        ele = self.driver.find_element_by_xpath('//*[@id="main"]/div/section[1]/div')
-        self.driver.execute_script("arguments[0].scroll(0, arguments[0].scrollHeight);", ele)
+        try:
+            ele = self.driver.find_element_by_xpath('//*[@id="main"]/div/section[1]/div')
+            self.driver.execute_script("arguments[0].scroll(0, arguments[0].scrollHeight);", ele)
+            logging.info("Successfully scrolled the page")
+        except Exception as e:
+            logging.exception(e)
 
         time.sleep(1)
 
@@ -119,16 +138,22 @@ class linkedin():
             It will featch the page no which containg jobs
 
         '''
-        pg_2 = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, 'li[data-test-pagination-page-btn="2"]'))
-        )
-        return pg_2
+        try:
+            pg_2 = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, 'li[data-test-pagination-page-btn="2"]'))
+            )
+            logging.info("Successfully find the 2nd page.")
+            return pg_2
+        except:
+            logging.info("2nd page not available")
+
 
     def job_cont(self):
         '''
             It will featch all element that containg the jobs
         '''
+
         job_container = WebDriverWait(self.driver, 10).until(
             lambda driver: self.driver.find_element_by_class_name("scaffold-layout__list-container"))
 
@@ -170,41 +195,48 @@ class linkedin():
             job_name:string of job which we want to scrape.
          return:list containing dictionary
         '''
-        self.search_filter(job_name)
-        j = 0
-        jobs_det = []
-        pg_2 = []
-        while j < 2:
-            if j == 0:
-                time.sleep(1)
-                self.scroll()
-                self.scroll()
-                pg_2.append(self.pages())
-                jo = self.job_cont()
-                for i in jo:
-                    i.click()
-                    jobs_det.append(self.job_detail())
-                j += 1
-            else:
-                # It will handle if there is only page for job container
-                if len(pg_2) == 0:
-                    break
-                else:
-                    pg_2[0].click()
+        try:
+            self.search_filter(job_name)
+            j = 0
+            jobs_det = []
+            pg_2 = []
+            while j < 2:
+                if j == 0:
                     time.sleep(1)
                     self.scroll()
                     self.scroll()
+                    pg_2.append(self.pages())
                     jo = self.job_cont()
                     for i in jo:
                         i.click()
                         jobs_det.append(self.job_detail())
                     j += 1
-
-        return jobs_det
+                else:
+                    # It will handle if there is only page for job container
+                    if len(pg_2) == 0:
+                        break
+                    else:
+                        pg_2[0].click()
+                        time.sleep(1)
+                        self.scroll()
+                        self.scroll()
+                        jo = self.job_cont()
+                        for i in jo:
+                            i.click()
+                            jobs_det.append(self.job_detail())
+                        j += 1
+                logging.info("Successfully scrape the jobs ")
+            return jobs_det
+        except Exception as e:
+            logging.error("Got an error while scrapping jobs",e)
 
     def move_back(self, input):
         ''' It will move our driver on Home page '''
-        if (input == "y") or (input == "Y"):
-            WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, 'a[class="app-aware-link "]'))
-            ).click()
+        try:
+            if (input == "y") or (input == "Y"):
+                WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, 'a[class="app-aware-link "]'))
+                ).click()
+            logging.info("Back on homepage for another job")
+        except Exception as e:
+            logging.info(e)

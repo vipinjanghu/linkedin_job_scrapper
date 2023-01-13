@@ -4,7 +4,9 @@ from constant import client, db
 from scrapper import linkedin
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
+import logging
 
+logging.basicConfig(filename='app.log', level=logging.DEBUG)
 app = Flask(__name__)
 lk = linkedin(url)
 @app.route('/')
@@ -32,16 +34,23 @@ def search_job():
     search_job = request.form['content']
     job_name = search_job.replace(" ", "").lower()
     if source == "y":
+        logging.info("Scrapping from linkedin")
         job_container = lk.jobs(search_job)
+        logging.info("Scrapped Successfully")
         to_database(db, job_name, job_container)
+        logging.info("Sent successfully to database")
         return render_template('results.html', job_list=job_container)
     elif source == "n":
+        logging.info("Getting job from Database")
         job_container = from_database(db, job_name)
         if job_container == "Try again scrape via linkedin.":
+            logging.info("Data not found on database")
             return render_template('job.html')
         else:
+            logging.info("Successfully featched data from database")
             return render_template('results1.html', job_list=job_container)
     else:
+        logging.error("Provide Right character Y/N only")
         return render_template('job1.html',error="Type Y/N only.")
 
 
@@ -50,9 +59,12 @@ def search_job():
 def want_another_job():
     i=request.form['content'].lower()
     if i=="y":
+        logging.info("Looking for another job")
         lk.move_back(i)
+        logging.info("Back on Home page")
         return render_template('job.html')
     elif i=="n":
+        logging.info("Thanks for visiting ")
         return render_template('thanks.html')
 
 
